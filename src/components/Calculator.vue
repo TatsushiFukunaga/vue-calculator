@@ -59,10 +59,11 @@ export default {
     },
     dot() {
       if (!this.current.includes(".")) {
-        if (this.current === "") {
-          this.append("0");
+        if (this.current === "" || this.current === "0") {
+          this.append("0.");
+        } else {
+          this.append(".");
         }
-        this.append(".");
       }
     },
     divide() {
@@ -111,6 +112,7 @@ export default {
   background: black;
   color: white;
   margin-bottom: 8px;
+  text-align: right;
 }
 
 .zero {
