@@ -27,10 +27,10 @@
 export default {
   data() {
     return {
-      previous: null,
+      previous: "",
       current: "",
       operator: null,
-      operatorClicked: null,
+      operatorClicked: false,
     };
   },
   methods: {
@@ -49,7 +49,7 @@ export default {
     append(number) {
       if (this.operatorClicked) {
         this.current = "";
-        this.operatorClicked = "";
+        this.operatorClicked = false;
       }
       this.current = `${this.current}${number}`;
     },
@@ -58,32 +58,32 @@ export default {
         this.append(".");
       }
     },
-    setPrevious() {
+    divide() {
+      this.operator = (a, b) => b / a;
       this.previous = this.current;
       this.operatorClicked = true;
     },
-    divide() {
-      this.operator = (a, b) => b / a;
-      this.setPrevious();
-    },
     times() {
       this.operator = (a, b) => a * b;
-      this.setPrevious();
+      this.previous = this.current;
+      this.operatorClicked = true;
     },
     minus() {
       this.operator = (a, b) => b - a;
-      this.setPrevious();
+      this.previous = this.current;
+      this.operatorClicked = true;
     },
     add() {
       this.operator = (a, b) => a + b;
-      this.setPrevious();
+      this.previous = this.current;
+      this.operatorClicked = true;
     },
     equal() {
       this.current = `${this.operator(
         parseFloat(this.current),
         parseFloat(this.previous)
       )}`;
-      this.previous = null;
+      this.previous = "";
     },
   },
 };
