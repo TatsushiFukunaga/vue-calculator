@@ -54,7 +54,10 @@ export default {
       this.current = `${this.current}${number}`;
     },
     dot() {
-      if (this.current.indexOf(".") === -1) {
+      if (!this.current.includes(".")) {
+        if (this.current === "") {
+          this.append("0");
+        }
         this.append(".");
       }
     },
