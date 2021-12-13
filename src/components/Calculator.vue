@@ -51,7 +51,11 @@ export default {
         this.current = "";
         this.operatorClicked = false;
       }
-      this.current = `${this.current}${number}`;
+      if (this.current === "0") {
+        this.current = number;
+      } else {
+        this.current = `${this.current}${number}`;
+      }
     },
     dot() {
       if (!this.current.includes(".")) {
