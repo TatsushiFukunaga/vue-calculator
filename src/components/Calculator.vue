@@ -36,6 +36,7 @@ export default {
   methods: {
     clear() {
       this.current = "";
+      this.previous = "";
     },
     sign() {
       this.current =
@@ -67,21 +68,45 @@ export default {
       }
     },
     divide() {
+      if (this.previous !== "" && this.current !== "") {
+        this.current = `${this.operator(
+          parseFloat(this.current),
+          parseFloat(this.previous)
+        )}`;
+      }
       this.operator = (a, b) => b / a;
       this.previous = this.current;
       this.operatorClicked = true;
     },
     times() {
+      if (this.previous !== "" && this.current !== "") {
+        this.current = `${this.operator(
+          parseFloat(this.current),
+          parseFloat(this.previous)
+        )}`;
+      }
       this.operator = (a, b) => a * b;
       this.previous = this.current;
       this.operatorClicked = true;
     },
     minus() {
+      if (this.previous !== "" && this.current !== "") {
+        this.current = `${this.operator(
+          parseFloat(this.current),
+          parseFloat(this.previous)
+        )}`;
+      }
       this.operator = (a, b) => b - a;
       this.previous = this.current;
       this.operatorClicked = true;
     },
     add() {
+      if (this.previous !== "" && this.current !== "") {
+        this.current = `${this.operator(
+          parseFloat(this.current),
+          parseFloat(this.previous)
+        )}`;
+      }
       this.operator = (a, b) => a + b;
       this.previous = this.current;
       this.operatorClicked = true;
