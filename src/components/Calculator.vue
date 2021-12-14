@@ -117,6 +117,7 @@ export default {
         parseFloat(this.previous)
       )}`;
       this.previous = "";
+      this.$emit("emit-current", this.current);
     },
   },
 };
