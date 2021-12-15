@@ -31,6 +31,7 @@ export default {
       current: "",
       operator: null,
       operatorClicked: false,
+      equalClicked: false,
     };
   },
   methods: {
@@ -52,6 +53,11 @@ export default {
         this.current = "";
         this.operatorClicked = false;
       }
+      if (this.equalClicked) {
+        this.current = number;
+        this.equalClicked = false;
+        return;
+      }
       if (this.current === "0") {
         this.current = number;
       } else {
@@ -60,11 +66,23 @@ export default {
     },
     dot() {
       if (!this.current.includes(".")) {
-        if (this.current === "" || this.current === "0") {
+        if (
+          this.current === "" ||
+          this.current === "0" ||
+          this.equalClicked ||
+          this.operatorClicked
+        ) {
           this.append("0.");
+          this.equalClicked = false;
+          this.operatorClicked = false;
         } else {
           this.append(".");
         }
+      }
+      if (this.operatorClicked) {
+        this.current = "";
+        this.append("0.");
+        this.operatorClicked = false;
       }
     },
     divide() {
@@ -118,6 +136,7 @@ export default {
       )}`;
       this.previous = "";
       this.$emit("emit-current", this.current);
+      this.equalClicked = true;
     },
   },
 };
