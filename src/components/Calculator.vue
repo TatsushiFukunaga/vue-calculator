@@ -86,7 +86,11 @@ export default {
       }
     },
     divide() {
-      if (this.previous !== "" && this.current !== "") {
+      if (
+        this.previous !== "" &&
+        this.current !== "" &&
+        !this.operatorClicked
+      ) {
         this.current = `${this.operator(
           parseFloat(this.current),
           parseFloat(this.previous)
@@ -97,7 +101,11 @@ export default {
       this.operatorClicked = true;
     },
     times() {
-      if (this.previous !== "" && this.current !== "") {
+      if (
+        this.previous !== "" &&
+        this.current !== "" &&
+        !this.operatorClicked
+      ) {
         this.current = `${this.operator(
           parseFloat(this.current),
           parseFloat(this.previous)
@@ -108,7 +116,11 @@ export default {
       this.operatorClicked = true;
     },
     minus() {
-      if (this.previous !== "" && this.current !== "") {
+      if (
+        this.previous !== "" &&
+        this.current !== "" &&
+        !this.operatorClicked
+      ) {
         this.current = `${this.operator(
           parseFloat(this.current),
           parseFloat(this.previous)
@@ -119,7 +131,11 @@ export default {
       this.operatorClicked = true;
     },
     add() {
-      if (this.previous !== "" && this.current !== "") {
+      if (
+        this.previous !== "" &&
+        this.current !== "" &&
+        !this.operatorClicked
+      ) {
         this.current = `${this.operator(
           parseFloat(this.current),
           parseFloat(this.previous)
