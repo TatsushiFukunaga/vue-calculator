@@ -130,13 +130,15 @@ export default {
       this.operatorClicked = true;
     },
     equal() {
-      this.current = `${this.operator(
-        parseFloat(this.current),
-        parseFloat(this.previous)
-      )}`;
-      this.previous = "";
-      this.$emit("emit-current", this.current);
-      this.equalClicked = true;
+      if (this.previous !== "" && this.current !== "") {
+        this.current = `${this.operator(
+          parseFloat(this.current),
+          parseFloat(this.previous)
+        )}`;
+        this.previous = "";
+        this.$emit("emit-current", this.current);
+        this.equalClicked = true;
+      }
     },
   },
 };
