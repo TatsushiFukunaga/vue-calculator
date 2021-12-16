@@ -72,24 +72,18 @@ export default {
       }
     },
     dot() {
-      if (!this.current.includes(".")) {
-        if (
-          this.current === "" ||
-          this.current === "0" ||
-          this.equalClicked ||
-          this.operatorClicked
-        ) {
-          this.append("0.");
-          this.equalClicked = false;
-          this.operatorClicked = false;
-        } else {
-          this.append(".");
-        }
-      }
-      if (this.operatorClicked) {
-        this.current = "";
-        this.append("0.");
+      if (
+        this.operatorClicked ||
+        this.equalClicked ||
+        this.current === "" ||
+        this.current === "0"
+      ) {
+        this.current = "0.";
         this.operatorClicked = false;
+        this.equalClicked = false;
+      }
+      if (!this.current.includes(".")) {
+        this.append(".");
       }
     },
     divide() {
