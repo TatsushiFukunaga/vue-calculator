@@ -130,7 +130,11 @@ export default {
       this.operatorClicked = true;
     },
     equal() {
-      if (this.previous !== "" && this.current !== "") {
+      if (
+        this.previous !== "" &&
+        this.current !== "" &&
+        !this.operatorClicked
+      ) {
         this.current = `${this.operator(
           parseFloat(this.current),
           parseFloat(this.previous)
