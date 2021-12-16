@@ -46,7 +46,11 @@ export default {
           : `-${this.current}`;
     },
     percent() {
-      this.current = `${parseFloat(this.current) / 100}`;
+      if (this.current === "") {
+        this.current = "0";
+      } else {
+        this.current = `${parseFloat(this.current) / 100}`;
+      }
     },
     append(number) {
       if (this.operatorClicked) {
