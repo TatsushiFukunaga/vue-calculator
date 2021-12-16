@@ -56,17 +56,10 @@ export default {
       }
     },
     append(number) {
-      if (this.operatorClicked) {
-        this.current = "";
+      if (this.operatorClicked || this.equalClicked || this.current === "0") {
+        this.current = number;
         this.operatorClicked = false;
-      }
-      if (this.equalClicked) {
-        this.current = number;
         this.equalClicked = false;
-        return;
-      }
-      if (this.current === "0") {
-        this.current = number;
       } else {
         this.current = `${this.current}${number}`;
       }
@@ -86,7 +79,7 @@ export default {
         this.append(".");
       }
     },
-    divide() {
+    execute() {
       if (
         this.previous !== "" &&
         this.current !== "" &&
@@ -97,54 +90,30 @@ export default {
           parseFloat(this.previous)
         )}`;
       }
-      this.operator = (a, b) => b / a;
+    },
+    setPrevious() {
       this.previous = this.current;
       this.operatorClicked = true;
+    },
+    divide() {
+      this.execute();
+      this.operator = (a, b) => b / a;
+      this.setPrevious();
     },
     times() {
-      if (
-        this.previous !== "" &&
-        this.current !== "" &&
-        !this.operatorClicked
-      ) {
-        this.current = `${this.operator(
-          parseFloat(this.current),
-          parseFloat(this.previous)
-        )}`;
-      }
+      this.execute();
       this.operator = (a, b) => a * b;
-      this.previous = this.current;
-      this.operatorClicked = true;
+      this.setPrevious();
     },
     minus() {
-      if (
-        this.previous !== "" &&
-        this.current !== "" &&
-        !this.operatorClicked
-      ) {
-        this.current = `${this.operator(
-          parseFloat(this.current),
-          parseFloat(this.previous)
-        )}`;
-      }
+      this.execute();
       this.operator = (a, b) => b - a;
-      this.previous = this.current;
-      this.operatorClicked = true;
+      this.setPrevious();
     },
     add() {
-      if (
-        this.previous !== "" &&
-        this.current !== "" &&
-        !this.operatorClicked
-      ) {
-        this.current = `${this.operator(
-          parseFloat(this.current),
-          parseFloat(this.previous)
-        )}`;
-      }
+      this.execute();
       this.operator = (a, b) => a + b;
-      this.previous = this.current;
-      this.operatorClicked = true;
+      this.setPrevious();
     },
     equal() {
       if (
@@ -156,8 +125,8 @@ export default {
           parseFloat(this.current),
           parseFloat(this.previous)
         )}`;
-        this.previous = "";
         this.$emit("emit-current", this.current);
+        this.previous = "";
         this.equalClicked = true;
       }
     },
