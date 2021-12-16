@@ -40,6 +40,9 @@ export default {
       this.previous = "";
     },
     sign() {
+      if (this.current === "") {
+        this.current = "0";
+      }
       this.current =
         this.current.charAt(0) === "-"
           ? this.current.slice(1)
