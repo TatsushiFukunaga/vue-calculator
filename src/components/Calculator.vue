@@ -60,6 +60,8 @@ export default {
         this.current = number;
         this.operatorClicked = false;
         this.equalClicked = false;
+      } else if (this.current === "-0") {
+        this.current = `-${number}`;
       } else {
         this.current = `${this.current}${number}`;
       }
