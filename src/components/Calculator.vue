@@ -79,7 +79,7 @@ export default {
         this.append(".");
       }
     },
-    execute() {
+    execute(callback) {
       if (
         this.previous !== "" &&
         this.current !== "" &&
@@ -89,7 +89,15 @@ export default {
           parseFloat(this.current),
           parseFloat(this.previous)
         )}`;
+        if (typeof callback === "function" && callback()) {
+          callback();
+        }
       }
+    },
+    emitCurrent() {
+      this.$emit("emit-current", this.current);
+      this.previous = "";
+      this.equalClicked = true;
     },
     setPrevious() {
       this.previous = this.current;
@@ -116,19 +124,7 @@ export default {
       this.setPrevious();
     },
     equal() {
-      if (
-        this.previous !== "" &&
-        this.current !== "" &&
-        !this.operatorClicked
-      ) {
-        this.current = `${this.operator(
-          parseFloat(this.current),
-          parseFloat(this.previous)
-        )}`;
-        this.$emit("emit-current", this.current);
-        this.previous = "";
-        this.equalClicked = true;
-      }
+      this.execute(this.emitCurrent);
     },
   },
 };
