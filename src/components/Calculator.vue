@@ -40,8 +40,9 @@ export default {
       this.previous = "";
     },
     sign() {
-      if (this.current === "") {
+      if (this.current === "" || this.operatorClicked) {
         this.current = "0";
+        this.operatorClicked = false;
       }
       this.current =
         this.current.charAt(0) === "-"
