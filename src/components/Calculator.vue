@@ -141,6 +141,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-auto-rows: minmax(50px, auto);
+  user-select: none;
 }
 
 .display {
