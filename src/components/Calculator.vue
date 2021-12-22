@@ -160,7 +160,6 @@ export default {
   color: white;
   background-color: #3b3b3b;
   border: 1px solid #999;
-  border-radius: 30%;
   cursor: pointer;
 }
 
