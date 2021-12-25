@@ -1,6 +1,6 @@
 <template>
   <div class="calculator">
-    <div class="display">{{ current || "0" }}</div>
+    <div class="display">{{ display || "0" }}</div>
     <div @click="clear" class="btn top">C</div>
     <div @click="sign" class="btn top">+/-</div>
     <div @click="percent" class="btn top">%</div>
@@ -27,6 +27,7 @@
 export default {
   data() {
     return {
+      display: "",
       previous: "",
       current: "",
       operator: null,
@@ -38,42 +39,96 @@ export default {
     clear() {
       this.current = "";
       this.previous = "";
+      this.display = "";
     },
     sign() {
-      if (this.current === "" || this.operatorClicked) {
-        this.current = "0";
+      if (this.equalClicked) {
+        this.current = "";
+        this.display = "";
+        this.equalClicked = false;
+      }
+      if (this.operatorClicked) {
+        this.current = "-0";
+        this.display = `${this.display}-0`;
         this.operatorClicked = false;
+        return;
+      }
+      if (this.current === "") {
+        this.current = "0";
       }
       this.current =
         this.current.charAt(0) === "-"
           ? this.current.slice(1)
           : `-${this.current}`;
+
+      if (this.current.includes("-")) {
+        this.display = `${this.display.slice(
+          0,
+          this.display.length - this.current.length + 1
+        )}${this.current}`;
+      } else {
+        this.display = `${this.display.slice(
+          0,
+          this.display.length - this.current.length - 1
+        )}${this.current}`;
+      }
     },
     percent() {
+      if (this.equalClicked) {
+        this.current = "";
+        this.display = "";
+        this.equalClicked = false;
+      }
       if (this.current === "") {
         this.current = "0";
+        this.display = "0";
       } else {
+        const length = this.current.length;
         this.current = `${parseFloat(this.current) / 100}`;
+        this.display = `${this.display.slice(0, -length)}${this.current}`;
       }
     },
     append(number) {
-      if (this.operatorClicked || this.equalClicked || this.current === "0") {
+      if (this.equalClicked) {
         this.current = number;
-        this.operatorClicked = false;
+        this.display = number;
         this.equalClicked = false;
+      } else if (this.operatorClicked) {
+        this.current = number;
+        this.display = `${this.display}${number}`;
+        this.operatorClicked = false;
+      } else if (this.current === "0") {
+        this.current = number;
+        this.display = `${this.display.slice(0, -1)}${number}`;
       } else if (this.current === "-0") {
         this.current = `-${number}`;
+        this.display = `${this.display.slice(0, -2)}-${number}`;
       } else {
         this.current = `${this.current}${number}`;
+        this.display = `${this.display}${number}`;
       }
     },
     dot() {
+      if (this.equalClicked) {
+        this.current = "";
+        this.display = "";
+        this.equalClicked = false;
+      }
       if (
         this.operatorClicked ||
         this.equalClicked ||
         this.current === "" ||
         this.current === "0"
       ) {
+        if (this.current === "0") {
+          if (this.current !== this.display) {
+            this.display = `${this.display}.`;
+          } else {
+            this.display = "0.";
+          }
+        } else {
+          this.display = `${this.display}0.`;
+        }
         this.current = "0.";
         this.operatorClicked = false;
         this.equalClicked = false;
@@ -98,7 +153,7 @@ export default {
       }
     },
     emitCurrent() {
-      this.$emit("emit-current", this.current);
+      this.$emit("emit-current", `${this.display}=${this.current}`);
       this.previous = "";
       this.equalClicked = true;
     },
@@ -106,28 +161,55 @@ export default {
       this.previous = this.current;
       this.operatorClicked = true;
     },
+    addOperatorOnDisplay(operator) {
+      if (
+        this.display.slice(-1) !== "+" &&
+        this.display.slice(-1) !== "-" &&
+        this.display.slice(-1) !== "×" &&
+        this.display.slice(-1) !== "÷" &&
+        !this.display.includes("=")
+      ) {
+        if (operator === "=") {
+          this.display = `${this.display}${operator}${this.current}`;
+        } else {
+          this.display = `${this.display}${operator}`;
+        }
+      }
+    },
     divide() {
       this.execute();
       this.operator = (a, b) => b / a;
       this.setPrevious();
+      this.addOperatorOnDisplay("÷");
     },
     times() {
       this.execute();
       this.operator = (a, b) => a * b;
       this.setPrevious();
+      this.addOperatorOnDisplay("×");
     },
     minus() {
       this.execute();
       this.operator = (a, b) => b - a;
       this.setPrevious();
+      this.addOperatorOnDisplay("-");
     },
     add() {
       this.execute();
       this.operator = (a, b) => a + b;
       this.setPrevious();
+      this.addOperatorOnDisplay("+");
     },
     equal() {
-      this.execute(this.emitCurrent);
+      if (
+        this.display.includes("+") ||
+        this.display.includes("-") ||
+        this.display.includes("×") ||
+        this.display.includes("÷")
+      ) {
+        this.execute(this.emitCurrent);
+        this.addOperatorOnDisplay("=");
+      }
     },
   },
 };
