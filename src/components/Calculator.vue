@@ -74,10 +74,11 @@ export default {
       }
     },
     percent() {
-      if (this.equalClicked) {
+      if (this.equalClicked || this.operatorClicked) {
         this.current = "";
         this.display = "";
         this.equalClicked = false;
+        this.operatorClicked = false;
       }
       if (this.current === "") {
         this.current = "0";
