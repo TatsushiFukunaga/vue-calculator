@@ -164,12 +164,15 @@ export default {
     },
     addOperatorOnDisplay(operator) {
       if (
-        this.display.slice(-1) !== "+" &&
-        this.display.slice(-1) !== "-" &&
-        this.display.slice(-1) !== "×" &&
-        this.display.slice(-1) !== "÷" &&
-        !this.display.includes("=")
+        this.display.slice(-1) == "+" ||
+        this.display.slice(-1) == "-" ||
+        this.display.slice(-1) == "×" ||
+        this.display.slice(-1) == "÷"
       ) {
+        if (operator !== "=") {
+          this.display = `${this.display.slice(0, -1)}${operator}`;
+        }
+      } else if (!this.display.includes("=") && this.current !== "") {
         if (operator === "=") {
           this.display = `${this.display}${operator}${this.current}`;
         } else {
