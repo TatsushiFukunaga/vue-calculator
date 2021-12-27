@@ -69,19 +69,15 @@ export default {
       }
     },
     percent() {
-      if (this.equalClicked || this.operatorClicked) {
-        this.current = "";
-        this.display = "";
-        this.equalClicked = false;
-        this.operatorClicked = false;
-      }
-      if (this.current === "") {
-        this.current = "0";
-        this.display = "0";
-      } else {
-        const length = this.current.length;
-        this.current = `${parseFloat(this.current) / 100}`;
-        this.display = `${this.display.slice(0, -length)}${this.current}`;
+      if (!this.equalClicked && !this.operatorClicked) {
+        if (this.current === "") {
+          this.current = "0";
+          this.display = "0";
+        } else {
+          const length = this.current.length;
+          this.current = `${parseFloat(this.current) / 100}`;
+          this.display = `${this.display.slice(0, -length)}${this.current}`;
+        }
       }
     },
     append(number) {
