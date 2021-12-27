@@ -42,35 +42,30 @@ export default {
       this.display = "";
     },
     sign() {
-      if (this.equalClicked) {
-        this.current = "";
-        this.display = "";
-        this.equalClicked = false;
-      }
       if (this.operatorClicked) {
         this.current = "-0";
         this.display = `${this.display}-0`;
         this.operatorClicked = false;
-        return;
-      }
-      if (this.current === "") {
-        this.current = "0";
-      }
-      this.current =
-        this.current.charAt(0) === "-"
-          ? this.current.slice(1)
-          : `-${this.current}`;
-
-      if (this.current.includes("-")) {
-        this.display = `${this.display.slice(
-          0,
-          this.display.length - this.current.length + 1
-        )}${this.current}`;
+      } else if (this.equalClicked) {
+        this.current = "-0";
+        this.display = "-0";
+        this.equalClicked = false;
       } else {
-        this.display = `${this.display.slice(
-          0,
-          this.display.length - this.current.length - 1
-        )}${this.current}`;
+        if (this.current === "") this.current = "0";
+        this.current =
+          this.current.charAt(0) === "-"
+            ? this.current.slice(1)
+            : `-${this.current}`;
+
+        this.display = this.current.includes("-")
+          ? `${this.display.slice(
+              0,
+              this.display.length - this.current.length + 1
+            )}${this.current}`
+          : `${this.display.slice(
+              0,
+              this.display.length - this.current.length - 1
+            )}${this.current}`;
       }
     },
     percent() {
