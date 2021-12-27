@@ -40,6 +40,7 @@ export default {
       this.current = "";
       this.previous = "";
       this.display = "";
+      this.operator = null;
     },
     sign() {
       if (this.operatorClicked) {
@@ -129,6 +130,7 @@ export default {
     emitCurrent() {
       this.$emit("emit-current", `${this.display}=${this.current}`);
       this.previous = "";
+      this.operator = null;
       this.equalClicked = true;
     },
     setPrevious() {
@@ -146,11 +148,10 @@ export default {
           this.display = `${this.display.slice(0, -1)}${operator}`;
         }
       } else if (!this.display.includes("=") && this.current !== "") {
-        if (operator === "=") {
-          this.display = `${this.display}${operator}${this.current}`;
-        } else {
-          this.display = `${this.display}${operator}`;
-        }
+        this.display =
+          operator === "="
+            ? `${this.display}${operator}${this.current}`
+            : `${this.display}${operator}`;
       }
     },
     divide() {
@@ -178,12 +179,7 @@ export default {
       this.addOperatorOnDisplay("+");
     },
     equal() {
-      if (
-        this.display.includes("+") ||
-        this.display.includes("-") ||
-        this.display.includes("×") ||
-        this.display.includes("÷")
-      ) {
+      if (this.operator !== null) {
         this.execute(this.emitCurrent);
         this.addOperatorOnDisplay("=");
       }
