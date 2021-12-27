@@ -101,33 +101,15 @@ export default {
       }
     },
     dot() {
-      if (this.equalClicked) {
-        this.current = "";
-        this.display = "";
+      if (this.equalClicked || this.current === "") {
+        this.append("0");
         this.equalClicked = false;
-      }
-      if (
-        this.operatorClicked ||
-        this.equalClicked ||
-        this.current === "" ||
-        this.current === "0"
-      ) {
-        if (this.current === "0") {
-          if (this.current !== this.display) {
-            this.display = `${this.display}.`;
-          } else {
-            this.display = "0.";
-          }
-        } else {
-          this.display = `${this.display}0.`;
-        }
-        this.current = "0.";
+      } else if (this.operatorClicked) {
+        this.append("0.");
         this.operatorClicked = false;
-        this.equalClicked = false;
       }
-      if (!this.current.includes(".")) {
-        this.append(".");
-      }
+      if (this.current === "0" || this.current === "-0") this.append("0.");
+      if (!this.current.includes(".")) this.append(".");
     },
     execute(callback) {
       if (
