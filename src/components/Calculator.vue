@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import BigNumber from "bignumber.js";
 export default {
   data() {
     return {
@@ -31,6 +32,7 @@ export default {
       previous: "",
       current: "",
       operator: null,
+      operatorForDecimal: null,
       operatorClicked: false,
       equalClicked: false,
     };
@@ -41,6 +43,7 @@ export default {
       this.previous = "";
       this.display = "";
       this.operator = null;
+      this.operatorForDecimal = null;
     },
     sign() {
       if (this.operatorClicked) {
@@ -118,10 +121,16 @@ export default {
         this.current !== "" &&
         !this.operatorClicked
       ) {
-        this.current = `${this.operator(
-          parseFloat(this.current),
-          parseFloat(this.previous)
-        )}`;
+        this.current =
+          this.previous.includes(".") || this.current.includes(".")
+            ? `${this.operatorForDecimal(
+                parseFloat(this.current),
+                parseFloat(this.previous)
+              )}`
+            : `${this.operator(
+                parseFloat(this.current),
+                parseFloat(this.previous)
+              )}`;
         if (typeof callback === "function" && callback()) {
           callback();
         }
@@ -131,6 +140,7 @@ export default {
       this.$emit("emit-current", `${this.display}=${this.current}`);
       this.previous = "";
       this.operator = null;
+      this.operatorForDecimal = null;
       this.equalClicked = true;
     },
     setPrevious() {
@@ -157,24 +167,28 @@ export default {
     divide() {
       this.execute();
       this.operator = (a, b) => b / a;
+      this.operatorForDecimal = (a, b) => BigNumber(b).div(a);
       this.setPrevious();
       this.addOperatorOnDisplay("÷");
     },
     times() {
       this.execute();
       this.operator = (a, b) => a * b;
+      this.operatorForDecimal = (a, b) => BigNumber(a).times(b);
       this.setPrevious();
       this.addOperatorOnDisplay("×");
     },
     minus() {
       this.execute();
       this.operator = (a, b) => b - a;
+      this.operatorForDecimal = (a, b) => BigNumber(b).minus(a);
       this.setPrevious();
       this.addOperatorOnDisplay("-");
     },
     add() {
       this.execute();
       this.operator = (a, b) => a + b;
+      this.operatorForDecimal = (a, b) => BigNumber(a).plus(b);
       this.setPrevious();
       this.addOperatorOnDisplay("+");
     },
