@@ -48,7 +48,7 @@ export default {
     sign() {
       if (this.operatorClicked) {
         this.current = "-0";
-        this.display = `${this.display}-0`;
+        this.display = `${this.display}(-0)`;
         this.operatorClicked = false;
       } else if (this.equalClicked) {
         this.current = "-0";
@@ -61,15 +61,36 @@ export default {
             ? this.current.slice(1)
             : `-${this.current}`;
 
-        this.display = this.current.includes("-")
-          ? `${this.display.slice(
+        if (this.current.includes("-")) {
+          if (
+            this.display.slice(-this.current.length).includes("+") ||
+            this.display.slice(-this.current.length).includes("-") ||
+            this.display.slice(-this.current.length).includes("×") ||
+            this.display.slice(-this.current.length).includes("÷")
+          ) {
+            this.display = `${this.display.slice(
               0,
               this.display.length - this.current.length + 1
-            )}${this.current}`
-          : `${this.display.slice(
+            )}(${this.current})`;
+          } else {
+            this.display = `${this.display.slice(
+              0,
+              this.display.length - this.current.length + 1
+            )}${this.current}`;
+          }
+        } else {
+          if (this.display.slice(-this.current.length - 3).includes("(")) {
+            this.display = `${this.display.slice(
+              0,
+              this.display.length - this.current.length - 3
+            )}${this.current}`;
+          } else {
+            this.display = `${this.display.slice(
               0,
               this.display.length - this.current.length - 1
             )}${this.current}`;
+          }
+        }
       }
     },
     percent() {
@@ -79,8 +100,13 @@ export default {
           this.display = "0";
         } else {
           const length = this.current.length;
-          this.current = `${parseFloat(this.current) / 100}`;
-          this.display = `${this.display.slice(0, -length)}${this.current}`;
+          this.current = this.current.includes(".")
+            ? `${BigNumber(parseFloat(this.current)).div(100)}`
+            : `${parseFloat(this.current) / 100}`;
+          this.display =
+            this.display.slice(-1) === ")"
+              ? `${this.display.slice(0, -length - 1)}${this.current})`
+              : `${this.display.slice(0, -length)}${this.current}`;
         }
       }
     },
@@ -98,10 +124,16 @@ export default {
         this.display = `${this.display.slice(0, -1)}${number}`;
       } else if (this.current === "-0") {
         this.current = `-${number}`;
-        this.display = `${this.display.slice(0, -2)}-${number}`;
+        this.display =
+          this.display === "-0"
+            ? `${this.display.slice(0, -2)}-${number}`
+            : `${this.display.slice(0, -4)}(-${number})`;
       } else {
         this.current = `${this.current}${number}`;
-        this.display = `${this.display}${number}`;
+        this.display =
+          this.display.slice(-1) === ")"
+            ? `${this.display.slice(0, -1)}${number})`
+            : `${this.display}${number}`;
       }
     },
     dot() {
