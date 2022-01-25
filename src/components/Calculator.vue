@@ -197,32 +197,56 @@ export default {
       }
     },
     divide() {
-      this.execute();
-      this.operator = (a, b) => b / a;
-      this.operatorForDecimal = (a, b) => BigNumber(b).div(a);
-      this.setPrevious();
-      this.addOperatorOnDisplay("÷");
+      if (this.equalClicked) {
+        this.display = this.current;
+        this.equalClicked = false;
+      }
+      if (this.current !== "") {
+        this.execute();
+        this.operator = (a, b) => b / a;
+        this.operatorForDecimal = (a, b) => BigNumber(b).div(a);
+        this.setPrevious();
+        this.addOperatorOnDisplay("÷");
+      }
     },
     times() {
-      this.execute();
-      this.operator = (a, b) => a * b;
-      this.operatorForDecimal = (a, b) => BigNumber(a).times(b);
-      this.setPrevious();
-      this.addOperatorOnDisplay("×");
+      if (this.equalClicked) {
+        this.display = this.current;
+        this.equalClicked = false;
+      }
+      if (this.current !== "") {
+        this.execute();
+        this.operator = (a, b) => a * b;
+        this.operatorForDecimal = (a, b) => BigNumber(a).times(b);
+        this.setPrevious();
+        this.addOperatorOnDisplay("×");
+      }
     },
     minus() {
-      this.execute();
-      this.operator = (a, b) => b - a;
-      this.operatorForDecimal = (a, b) => BigNumber(b).minus(a);
-      this.setPrevious();
-      this.addOperatorOnDisplay("-");
+      if (this.equalClicked) {
+        this.display = this.current;
+        this.equalClicked = false;
+      }
+      if (this.current !== "") {
+        this.execute();
+        this.operator = (a, b) => b - a;
+        this.operatorForDecimal = (a, b) => BigNumber(b).minus(a);
+        this.setPrevious();
+        this.addOperatorOnDisplay("-");
+      }
     },
     add() {
-      this.execute();
-      this.operator = (a, b) => a + b;
-      this.operatorForDecimal = (a, b) => BigNumber(a).plus(b);
-      this.setPrevious();
-      this.addOperatorOnDisplay("+");
+      if (this.equalClicked) {
+        this.display = this.current;
+        this.equalClicked = false;
+      }
+      if (this.current !== "") {
+        this.execute();
+        this.operator = (a, b) => a + b;
+        this.operatorForDecimal = (a, b) => BigNumber(a).plus(b);
+        this.setPrevious();
+        this.addOperatorOnDisplay("+");
+      }
     },
     equal() {
       if (this.operator !== null) {
