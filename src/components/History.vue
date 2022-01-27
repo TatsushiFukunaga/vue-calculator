@@ -30,6 +30,7 @@ export default {
   border: 2px solid #000;
   background: #fff;
   font-size: 15px;
+  cursor: pointer;
 }
 
 .btn:hover {
