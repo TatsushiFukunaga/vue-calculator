@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Calculator @emit-current="setItems" />
-    <History :items="items" />
+    <History :items="items" @deleteHistory="deleteItems" />
   </div>
 </template>
 
@@ -23,6 +23,9 @@ export default {
   methods: {
     setItems(item) {
       this.items.push(item);
+    },
+    deleteItems() {
+      this.items = [];
     },
   },
 };

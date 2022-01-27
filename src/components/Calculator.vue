@@ -38,6 +38,9 @@ export default {
     };
   },
   methods: {
+    /**
+     * 全ての変数を初期値に戻す
+     */
     clear() {
       this.current = "";
       this.previous = "";
@@ -45,6 +48,9 @@ export default {
       this.operator = null;
       this.operatorForDecimal = null;
     },
+    /**
+     * currentとdisplayの符号を反転させる
+     */
     sign() {
       if (this.operatorClicked) {
         this.current = "-0";
@@ -93,6 +99,9 @@ export default {
         }
       }
     },
+    /**
+     * currentを1/100
+     */
     percent() {
       if (!this.equalClicked && !this.operatorClicked) {
         if (this.current === "") {
@@ -110,6 +119,10 @@ export default {
         }
       }
     },
+    /**
+     * displayに数字を追加
+     * @param {string} number 入力された数字
+     */
     append(number) {
       if (this.equalClicked) {
         this.current = number;
@@ -136,6 +149,9 @@ export default {
             : `${this.display}${number}`;
       }
     },
+    /**
+     * displayに.を追加
+     */
     dot() {
       if (this.equalClicked || this.current === "") {
         this.append("0");
@@ -147,6 +163,10 @@ export default {
       if (this.current === "0" || this.current === "-0") this.append("0.");
       if (!this.current.includes(".")) this.append(".");
     },
+    /**
+     * 計算を実行
+     * @param {function} callback - 計算実行後に実行する関数
+     */
     execute(callback) {
       if (
         this.previous !== "" &&
@@ -168,6 +188,9 @@ export default {
         }
       }
     },
+    /**
+     * 計算式をemitする
+     */
     emitCurrent() {
       this.$emit("emit-current", `${this.display}=${this.current}`);
       this.previous = "";
@@ -179,6 +202,10 @@ export default {
       this.previous = this.current;
       this.operatorClicked = true;
     },
+    /**
+     * displayにoperatorを追加する
+     * @param {string} operator - 入力されたoperator
+     */
     addOperatorOnDisplay(operator) {
       if (
         this.display.slice(-1) == "+" ||
