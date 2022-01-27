@@ -3,7 +3,9 @@
     <div v-for="item in items" :key="item">
       <div>{{ item }}</div>
     </div>
-    <button v-if="items.length > 0" @click="deleteHistory">Delete</button>
+    <button class="btn" v-if="items.length > 0" @click="deleteHistory">
+      Delete
+    </button>
   </div>
 </template>
 
@@ -22,5 +24,16 @@ export default {
 .history {
   padding-top: 60px;
   font-size: 30px;
+}
+
+.btn {
+  border: 2px solid #000;
+  background: #fff;
+  font-size: 15px;
+}
+
+.btn:hover {
+  color: #fff;
+  background: #000;
 }
 </style>
