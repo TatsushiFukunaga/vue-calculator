@@ -44,6 +44,11 @@ export default {
   border: none;
   color: #fff;
   cursor: pointer;
+  opacity: 20%;
+}
+
+.itemBtn:hover {
+  opacity: 100%;
 }
 
 .btn {
