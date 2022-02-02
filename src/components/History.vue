@@ -1,10 +1,13 @@
 <template>
   <div class="history">
     <div v-for="item in items" :key="item">
-      <div>{{ item }}</div>
+      <div>
+        {{ item }}
+        <button class="itemBtn" @click="deleteItem(item)">✖️</button>
+      </div>
     </div>
     <button class="btn" v-if="items.length > 0" @click="deleteHistory">
-      Delete
+      Delete All
     </button>
   </div>
 </template>
@@ -13,8 +16,18 @@
 export default {
   props: ["items"],
   methods: {
+    /**
+     * 計算結果を全て削除
+     */
     deleteHistory() {
       this.$emit("deleteHistory", null);
+    },
+    /**
+     * 選択した計算結果を削除
+     * @param {int} id - 計算結果のID
+     */
+    deleteItem(id) {
+      this.$emit("deleteItem", id);
     },
   },
 };
@@ -24,6 +37,13 @@ export default {
 .history {
   padding-top: 60px;
   font-size: 30px;
+}
+
+.itemBtn {
+  background: #fff;
+  border: none;
+  color: #fff;
+  cursor: pointer;
 }
 
 .btn {

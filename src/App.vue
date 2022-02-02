@@ -1,7 +1,11 @@
 <template>
   <div id="app">
     <Calculator @emit-current="setItems" />
-    <History :items="items" @deleteHistory="deleteItems" />
+    <History
+      :items="items"
+      @deleteHistory="deleteItems"
+      @deleteItem="deleteItem"
+    />
   </div>
 </template>
 
@@ -21,11 +25,25 @@ export default {
     };
   },
   methods: {
+    /**
+     * 計算結果を配列に追加
+     * @param {string} item - 計算結果
+     */
     setItems(item) {
       this.items.push(item);
     },
+    /**
+     * 計算結果を全て削除
+     */
     deleteItems() {
       this.items = [];
+    },
+    /**
+     * 選択した計算結果を削除
+     * @param {int} id - 計算結果のID
+     */
+    deleteItem(id) {
+      this.items = this.items.filter((item) => id !== item);
     },
   },
 };
