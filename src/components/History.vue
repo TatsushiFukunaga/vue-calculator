@@ -1,9 +1,9 @@
 <template>
   <div class="history">
-    <div v-for="item in items" :key="item">
+    <div v-for="(item, index) in items" :key="index">
       <div>
         {{ item }}
-        <button class="itemBtn" @click="deleteItem(item)">✖️</button>
+        <button class="itemBtn" @click="deleteItem(index)">✖️</button>
       </div>
     </div>
     <button class="btn" v-if="items.length > 0" @click="deleteHistory">
@@ -24,10 +24,10 @@ export default {
     },
     /**
      * 選択した計算結果を削除
-     * @param {int} id - 計算結果のID
+     * @param {int} key - 計算結果のkey
      */
-    deleteItem(id) {
-      this.$emit("deleteItem", id);
+    deleteItem(key) {
+      this.$emit("deleteItem", key);
     },
   },
 };

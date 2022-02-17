@@ -40,10 +40,10 @@ export default {
     },
     /**
      * 選択した計算結果を削除
-     * @param {int} id - 計算結果のID
+     * @param {int} key - 計算結果のkey
      */
-    deleteItem(id) {
-      this.items = this.items.filter((item) => id !== item);
+    deleteItem(key) {
+      this.items = this.items.filter((item, index) => key !== index);
     },
   },
 };
