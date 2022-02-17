@@ -302,6 +302,7 @@ export default {
   color: white;
   margin-bottom: 8px;
   text-align: right;
+  padding: 8px;
 }
 
 .zero {
